@@ -1,4 +1,4 @@
-from obspy import Trace, UTCDateTime
+from obspy import UTCDateTime
 import os
 
 class PlotMseed():
@@ -7,11 +7,6 @@ class PlotMseed():
         self._filename = filename
         self._dayplot_directory = dayplot_directory
 
-    def check_directory(self, directory):
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        return self
-
     def set_time(self):
         date = self._trace.stats.starttime.strftime('%Y-%m-%d')
         self._starttime=UTCDateTime(date+'T00:00:00.000000Z')
@@ -19,9 +14,8 @@ class PlotMseed():
         return self
 
     def plot(self):
-        directory = os.path.join(self._dayplot_directory,self._trace.stats.station)
-        filename = os.path.join(directory,self._filename)
         title = self._trace.stats.starttime.strftime('%Y-%m-%d')+' | '+self._trace.id+' | Sampling Rate: '+str(self._trace.stats.sampling_rate)+' | '+str(self._trace.stats.npts)+' samples'
-        self.check_directory(directory).set_time()
-        self._trace.plot(type='dayplot', starttime=self._starttime, endtime=self._endtime, interval=60, one_tick_per_line=True, color=['k'], outfile=filename+'.png', number_of_ticks=13, size=(1200,900), title=title)
+        
+        self.set_time()._trace.plot(type='dayplot', starttime=self._starttime, endtime=self._endtime, interval=60, one_tick_per_line=True, color=['k'], outfile=self._dayplot_directory+'.png', number_of_ticks=13, size=(1200,900), title=title, show=False)
+        
         return self
