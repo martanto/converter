@@ -1,0 +1,17 @@
+{
+    "directory" : "D:\\Data\\Agung",
+    "start_date" : "2017-11-01",
+    "end_date" : "2017-11-03",
+    "output_directory" : "D:\\Data\\Converted",
+    "dayplot_directory" : "D:\\Data\\Dayplots",
+    "data_structure" : "sds",
+    "default": "mysql",
+    "mysql": {
+        "driver": "mysql",
+        "host": "localhost",
+        "database": "seismic",
+        "user": "homestead",
+        "password": "secret",
+        "prefix": ""
+    }
+}
