@@ -121,9 +121,9 @@ class ConvertToMseed():
 
     def convert_and_plot(self, use_cpu=2):
         print('=== Converting and Plot Daily Seismogram ===')
-        print('=== Jumlah CPU yang digunakan : ',use_cpu,' ===')
-        pool = Pool(use_cpu)
-        pool.map(self._multi_convert_and_plot, self.date_range())
+        print('=== Jumlah CPU yang digunakan : ',use_cpu,' ===')      
+        with Pool(use_cpu) as pool:
+            pool.map(self._multi_convert_and_plot, self.date_range())
         return self
 
     def _multi_convert_and_plot(self, date):

@@ -1,4 +1,5 @@
 import os
+import glob
 from settings import settings
 
 class Scan():
@@ -22,9 +23,12 @@ class Scan():
         return self._directory
 
     def get_files(self):
-        for root,directories,files in os.walk(self._directory):
-            for file in files:
-                if self._filter in file:
-                    self._files.append(os.path.join(root, file))
+        self._files = glob.glob(self._directory+'\\'+self._filter+'*')
         return self._files
+
+        # for root,directories,files in os.walk(self._directory):
+        #     for file in files:
+        #         if self._filter in file:
+        #             self._files.append(os.path.join(root, file))
+        # return self._files
         
