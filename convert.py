@@ -7,6 +7,7 @@ from scan import Scan
 from new_stream import NewStream
 from plot_mseed import PlotMseed
 from plot_spectogram import PlotSpectogram
+from save_index import sds_index
 
 """
 SDS Directory https://www.seiscomp3.org/doc/applications/slarchive/SDS.html
@@ -123,6 +124,7 @@ class ConvertToMseed():
         print('=== Jumlah CPU yang digunakan : ',use_cpu,' ===')
         pool = Pool(use_cpu)
         pool.map(self._multi_convert_and_plot, self.date_range())
+        return self
 
     def _multi_convert_and_plot(self, date):
         string_date = date.strftime('%Y-%m-%d')
@@ -140,4 +142,4 @@ class ConvertToMseed():
                     self.save(trace, self.get_folder(trace, self._output_directory))
                     self.plot(trace, self.filename, self.get_folder(trace, self._dayplot_directory))
                     # self.spectogram(trace, self.filename, self.get_folder(trace, self._spectogram_directory))
-    
+                sds_index(filename=self.filename,trace=trace,date=string_date)

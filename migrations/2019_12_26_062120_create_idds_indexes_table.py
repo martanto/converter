@@ -1,16 +1,17 @@
 from orator.migrations import Migration
 
-class CreateIndexFilesTable(Migration):
+class CreateIddsIndexesTable(Migration):
+
     def up(self):
         """
         Run the migrations.
         """
-        with self.schema.create('index_files') as table:
+        with self.schema.create('idds_indexes') as table:
             table.big_increments('id')
             table.string('filename')
             table.string('scnl')
             table.date('date')
-            table.float('sample_rate').default(0.0)
+            table.float('sampling_rate').default(0.0)
             table.float('min_amplitude').default(0.0)
             table.float('max_amplitude').default(0.0)
             table.float('availability').default(0.0)
@@ -20,5 +21,5 @@ class CreateIndexFilesTable(Migration):
             table.nullable_timestamps()
 
     def down(self):
-        self.schema.drop_if_exists('index_files')
+        self.schema.drop_if_exists('idds_indexes')
         pass

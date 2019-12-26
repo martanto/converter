@@ -1,7 +1,7 @@
 {
     "directory" : "D:\\Data\\Agung",
-    "start_date" : "2018-02-01",
-    "end_date" : "2019-05-01",
+    "start_date" : "2017-11-01",
+    "end_date" : "2019-01-12",
     "output_directory" : "D:\\Data\\Converted",
     "dayplot_directory" : "D:\\Data\\Dayplots",
     "spectogram_directory" : "D:\\Data\\Spectograms",

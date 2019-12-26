@@ -1,3 +1,5 @@
+from orator import DatabaseManager
+
 DATABASES = {
     "default": "mysql",
     "mysql": {
@@ -9,3 +11,5 @@ DATABASES = {
         "prefix": ""
     }
 }
+
+database = DatabaseManager(DATABASES)
