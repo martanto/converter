@@ -1,7 +1,7 @@
 from models.sds_index import SdsIndex
 
 def sds_index(filename,trace,date):
-    print('* SDS Indexing '+str(trace)+' ====')
+    # print('* SDS Indexing '+str(trace)+' ====')
 
     attributes = {
         'scnl':get_scnl(trace),

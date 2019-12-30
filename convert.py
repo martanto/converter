@@ -57,10 +57,12 @@ class ConvertToMseed():
         <SDSdir>/Year/NET/STA/CHAN.TYPE/NET.STA.LOC.CHAN.TYPE.YEAR.DAY
         """
         s = self._dict_structure
-        path = os.path.join(output_directory,'SDS',s['year'],s['network'],s['station'],s['channel']+'.'+s['type'])
-        self.filename = '.'.join([s['network'],s['station'],s['location'],s['channel'],s['type'],s['year'],s['julian_day']])
+        sub_sds = os.path.join(s['year'],s['network'],s['station'],s['channel']+'.'+s['type'])
+        filename = '.'.join([s['network'],s['station'],s['location'],s['channel'],s['type'],s['year'],s['julian_day']])
+        path = os.path.join(output_directory,'SDS',sub_sds)
+        self.filename = os.path.join(sub_sds,filename)
         self.check_directory(path)
-        return os.path.join(path,self.filename)
+        return os.path.join(path,filename)
 
     def get_folder(self, trace, output_directory):
         self._dict_structure = {
@@ -85,10 +87,10 @@ class ConvertToMseed():
         return self
 
     def file_not_exists(self, file):
-        return not os.path.exists(file+'.mseed')
+        return not os.path.exists(file)
 
     def _save(self, trace, path):
-        trace.write(path+'.mseed', format='MSEED')
+        trace.write(path, format='MSEED')
 
     def save(self, trace, path):
         try:
@@ -115,9 +117,10 @@ class ConvertToMseed():
                     new_stream += NewStream(stream_file).get()
                 new_stream = new_stream.merge(fill_value=0)
                 for index, trace in enumerate(new_stream, start=1):
-                    if self.file_not_exists(self.get_folder(trace, self._output_directory)):
+                    filename = self.get_folder(trace, self._output_directory)
+                    if self.file_not_exists(filename):
                         print(str(index)+'. '+str(trace)+' | Max : '+str(abs(trace.max())))
-                        self.save(trace, self.get_folder(trace, self._output_directory))
+                        self.save(trace, filename)
 
     def convert_and_plot(self, use_cpu=2):
         print('=== Converting and Plot Daily Seismogram ===')
@@ -137,9 +140,10 @@ class ConvertToMseed():
             new_stream = new_stream.merge(fill_value=0)
             print('==== Saving Seismogram '+string_date+' ====')
             for index, trace in enumerate(new_stream, start=1):
-                if self.file_not_exists(self.get_folder(trace, self._output_directory)):
+                filename = self.get_folder(trace, self._output_directory)
+                if self.file_not_exists(filename):
                     print(str(index)+'. '+str(trace)+' | Max : '+str(abs(trace.max())))
-                    self.save(trace, self.get_folder(trace, self._output_directory))
-                    self.plot(trace, self.filename, self.get_folder(trace, self._dayplot_directory))
+                    self.save(trace, filename)
+                    self.plot(trace, filename, self.get_folder(trace, self._dayplot_directory))
                     # self.spectogram(trace, self.filename, self.get_folder(trace, self._spectogram_directory))
                 sds_index(filename=self.filename,trace=trace,date=string_date)
